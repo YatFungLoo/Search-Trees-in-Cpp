@@ -1,5 +1,4 @@
 #include "BST.hpp"
-#include <pthread.h>
 
 void BST::Insert(int key) {
     std::cout << "Inserting: " << key << std::endl;
@@ -40,32 +39,42 @@ Node *BST::RemoveNode(Node *node, int key) {
         return node;
     }
 
+    // Traverse to left child node when key is smaller.
     if (key < node->Key) {
         node->Left = RemoveNode(node->Left, key);
     }
 
+    // Traverse to right child node when key is greater.
     if (key > node->Key) {
         node->Right = RemoveNode(node->Right, key);
     }
 
+    // When key is found.
     if (key == node->Key) {
-        // If it's a leaf node (i.e no child).
+        // Case 1: If it's a leaf node (i.e no child).
         if (node->Left == nullptr && node->Right == nullptr) {
             delete node;
             return nullptr;
         }
 
-        // If there is only one child, replace itself with child node and delete.
+        // Case 2: If there is only one child, replace itself with child node and delete.
         // Covering cases for both sides.
-        if (node->Left == nullptr) {
+        if (node->Left == nullptr && node->Right != nullptr) {
             Node *temp_node = node->Right;
             delete node;
             return temp_node;
-        } else if (node->Right == nullptr) {
+        } else if (node->Right == nullptr && node->Left != nullptr) {
             Node *temp_node = node->Left;
             delete node;
             return temp_node;
         }
+
+        // Case 3: If node has two children, either:
+        // 1) find node's right hand side inorder successor (smallest value), replace itself
+        // with its successor, and delete the found inorder successor.
+        // 2) find node's left hand side biggest value, replace itself with its successor,
+        // and delete the found inorder successor.
+        
     }
 
     // TODO
@@ -176,5 +185,33 @@ Node *BST::SimepleSearch(Node *node, int key) {
         node = SimepleSearch(node->Right, key);
     }
 
+    return node;
+}
+
+// Return minimun value of the tree.
+int BST::FindMinValue() {
+    Node *node = new Node();
+    node = FindMinValueNode(root_node);
+    return node->Key;
+}
+
+Node *BST::FindMinValueNode(Node *node) {
+    if (node->Left != nullptr) {
+        node = FindMinValueNode(node->Left);
+    }
+    return node;
+}
+
+// Return maximum calue of the tree.
+int BST::FindMaxValue() {
+    Node *node = new Node();
+    node = FindMaxValueNode(root_node);
+    return node->Key;
+}
+
+Node *BST::FindMaxValueNode(Node *node) {
+    if (node->Right != nullptr) {
+        node = FindMaxValueNode(node->Right);
+    }
     return node;
 }

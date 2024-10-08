@@ -33,6 +33,8 @@ class BST {
     // @param Mode: Pre_order, Post_order and In_order
     void Traversing(int mode);
     bool Search(int key);
+    int FindMinValue();
+    int FindMaxValue();
     Node *Create(int key);
 
   private:
@@ -42,4 +44,6 @@ class BST {
     void PostOrderTraverse(Node *node);
     void InOrderTraverse(Node *node);
     Node *SimepleSearch(Node *node, int key);
+    Node *FindMinValueNode(Node *node);
+    Node *FindMaxValueNode(Node *node);
 };
