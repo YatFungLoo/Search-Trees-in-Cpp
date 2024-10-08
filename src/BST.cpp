@@ -72,14 +72,18 @@ Node *BST::RemoveNode(Node *node, int key) {
         // Case 3: If node has two children, either:
         // 1) find node's right hand side inorder successor (smallest value), replace itself
         // with its successor, and delete the found inorder successor.
+        Node *temp_min = FindMinValueNode(root_node->Right);
+        node->Key = temp_min->Key;
+        node->Right = RemoveNode(node->Right, temp_min->Key);
+
+        ////////////////////////////////////////////////////////////////////////////////////
         // 2) find node's left hand side biggest value, replace itself with its successor,
         // and delete the found inorder successor.
-        
+        // Node *temp_max = FindMaxValueNode(root_node->Left);
+        // node->Key = temp_max->Key;
+        // node->Left = RemoveNode(node->Left, temp_max->Key);
+        ////////////////////////////////////////////////////////////////////////////////////
     }
-
-    // TODO
-    // need to cover more cases but require traverse function to find sub tree minimum value.
-
     return node;
 }
 
