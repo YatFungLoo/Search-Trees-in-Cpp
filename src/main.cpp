@@ -1,5 +1,4 @@
 #include "BST.hpp"
-#include "cassert"
 #include <cassert>
 
 int main() {
