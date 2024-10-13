@@ -7,13 +7,15 @@ Simple implementation of a BST tree written in C++.
 Software requirement:
 
 1. cmake version 3.22.1
+3. ninja 1.13.0.git
 2. Ubuntu clang version 14.0.0-1ubuntu1.1
+
 
 Use the following Bash script to compile the project:
 ```
 mkdir build && cd build
 cmake .. --preset=clang_debug
-make
+ninja clean && ninja
 ```
 
 When build finishes, run the executable in the `build/` directory:

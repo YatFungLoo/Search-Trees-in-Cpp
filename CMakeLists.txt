@@ -31,6 +31,3 @@ target_include_directories(${PROJECT_NAME}
     PRIVATE
         ${PROJECT_SOURCE_DIR}/include
 )
-
-### Compile commands generation ###
-set(CMAKE_EXPORT_COMPILE_COMMANDS)
