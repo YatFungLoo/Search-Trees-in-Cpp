@@ -1,7 +1,7 @@
 #include <iostream>
 
-class Node {
-  public:
+struct Node {
+  // public:
     int Key;
     Node *Left;
     Node *Right;
