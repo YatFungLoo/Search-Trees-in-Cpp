@@ -30,6 +30,7 @@ int main() {
     myBST.Traversing(in_order);
     myBST.Traversing(pre_order);
     myBST.Traversing(post_order);
+    myBST.Traversing(level_order);
 
     // Search()
     myBST.Search(200);
