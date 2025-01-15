@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 
 struct Node {
   // public:
@@ -15,11 +16,15 @@ struct Node {
 };
 
 // Traversing mode
-enum Mode { pre_order, post_order, in_order };
+enum Mode { pre_order, post_order, in_order, level_order};
 
-// Basic functions:
-// Create(), Traversing(), Insert(), Search(), Remove(), PrintTree().
-// Traversing includes 1) Pre-order 2) Post-order and 3) In-order.
+/*
+Basic functions:
+1) Create(), Traversing(), Insert(), Search(), Remove(), PrintTree().
+2) Depth-First-Search Traversing includes 1) Pre-order 2) Post-order and 3) In-order.
+3) Breath-First-Search Travering includes Level-order.
+ */
+
 class BST {
     Node *root_node = new Node();
 
@@ -30,7 +35,7 @@ class BST {
     };
     void Insert(int key);
     void Remove(int key);
-    // @param Mode: Pre_order, Post_order and In_order
+    // @param Mode: pre_order, post_order, in_order and level_order.
     void Traversing(int mode);
     bool Search(int key);
     int FindMinValue();
@@ -43,6 +48,7 @@ class BST {
     void PreOrderTraverse(Node *node);
     void PostOrderTraverse(Node *node);
     void InOrderTraverse(Node *node);
+    void LevelOrderTraverse(Node *node);
     Node *SimepleSearch(Node *node, int key);
     Node *FindMinValueNode(Node *node);
     Node *FindMaxValueNode(Node *node);

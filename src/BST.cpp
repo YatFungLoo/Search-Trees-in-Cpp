@@ -105,6 +105,11 @@ void BST::Traversing(int mode) {
         InOrderTraverse(root_node);
         std::cout << std::endl;
         break;
+    case level_order:
+        std::cout << "Level-order traverse: ";
+        LevelOrderTraverse(root_node);
+        std::cout << std::endl;
+        break;
     }
 }
 
@@ -148,6 +153,39 @@ void BST::InOrderTraverse(Node *node) {
     std::cout << node->Key << " ";
     // Then proceed to right subtree/node to finish up.
     InOrderTraverse(node->Right);
+}
+
+/* Iterative Queue implementation.
+   1. Add root / pop to visited.
+   2. Add left node then right node to queue.
+   3. Repeat until queue is empty.
+ */
+void BST::LevelOrderTraverse(Node *node) {
+    std::queue<Node *> node_queue;
+    std::queue<Node *> visited;
+    node_queue.push(node);
+
+    while (!node_queue.empty()) {
+	int queue_length = node_queue.size();
+        for (int i = 0; i < queue_length; i++) {
+	    auto dequeu_node = (node_queue.front());
+	    node_queue.pop();
+	    visited.push(dequeu_node);
+	    if (dequeu_node->Left != nullptr) {
+		node_queue.push(dequeu_node->Left);
+	    }
+	    if (dequeu_node->Right != nullptr) {
+		node_queue.push(dequeu_node->Right);
+	    }
+        }
+    }
+
+    // Printer.
+    int length = visited.size();
+    for (int i = 0 ; i < length; i++) {
+	std::cout << visited.front()->Key << ", ";
+	visited.pop();
+    }
 }
 
 bool BST::Search(int key) {
