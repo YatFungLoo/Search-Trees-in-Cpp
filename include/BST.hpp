@@ -22,7 +22,7 @@ enum Mode { pre_order, post_order, in_order, level_order};
 Basic functions:
 1) Create(), Traversing(), Insert(), Search(), Remove(), PrintTree().
 2) Depth-First-Search Traversing includes 1) Pre-order 2) Post-order and 3) In-order.
-3) Breath-First-Search Travering includes Level-order.
+3) Breadth-First-Search Travering includes Level-order.
  */
 
 class BST {
