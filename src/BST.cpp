@@ -232,7 +232,7 @@ Node *BST::SimepleSearch(Node *node, int key) {
 
 // Return minimun value of the tree.
 int BST::FindMinValue() {
-    Node *node = new Node();
+    Node *node = nullptr;
     node = FindMinValueNode(root_node);
     return node->Key;
 }
@@ -246,7 +246,7 @@ Node *BST::FindMinValueNode(Node *node) {
 
 // Return maximum calue of the tree.
 int BST::FindMaxValue() {
-    Node *node = new Node();
+    Node *node = nullptr;
     node = FindMaxValueNode(root_node);
     return node->Key;
 }

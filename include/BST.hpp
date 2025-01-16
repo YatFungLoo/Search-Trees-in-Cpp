@@ -8,7 +8,6 @@ struct Node {
     Node *Right;
     Node *Parent;
     // Constructors
-    Node() { Left = Right = Parent = nullptr; }
     Node(int key) {
         Key = key;
         Left = Right = Parent = nullptr;
@@ -26,12 +25,12 @@ Basic functions:
  */
 
 class BST {
-    Node *root_node = new Node();
+    Node *root_node = nullptr;
 
   public:
     BST(int key) {
         std::cout << "Creating tree with root node: " << key << std::endl;
-        root_node->Key = key;
+	root_node = new Node(key);
     };
     void Insert(int key);
     void Remove(int key);
