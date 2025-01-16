@@ -9,10 +9,16 @@ Simple implementation of a BST tree written in C++.
 - [To build the project](#to-build-the-project)
 - [Structure](#structure)
 - [Tree Traversal](#tree-traversal)
+  - [Note On Following Implementation](#note-on-following-implementation)
   - [In-order Traversal](#in-order-traversal)
   - [Pre-order Traversal](#pre-order-traversal)
   - [Post-order Traversal](#post-order-traversal)
   - [Level-order Traversal (Breadth First Search)](#level-order-traversal-breadth-first-search)
+    - [Iterative Method Using Queue](#iterative-method-using-queue)
+- [Balance Search Tree](#balance-search-tree)
+  - [2-3 Search Tree (concept)](#2-3-search-tree-concept)
+    - [Insertion method](#insertion-method)
+  - [Red-Black BSTs](#red-black-bsts)
 
 <!-- markdown-toc end -->
 
@@ -104,3 +110,21 @@ Instructions:
 	  2. Check node's children, from left to right.
 	  3. If left node exist, push left node to node_queueu.
 	  4. If right node exist, push right node to node_queueu.
+
+# Balance Search Tree
+A type of BST called Balance search tree, usually referred to it's most common implementation Red-Black tree, In comparison to binary search tree are searches are guaranteed to be logarithmic.
+
+## 2-3 Search Tree (concept)
+This tree allows extra link to be connected to each node, where each node can now held up to 2 keys and 3 links, hence the name 2 "to" 3 node search tree. A 2-3 search tree are perfectly balanced when all null links (link to empty tree) are the same distance from the root. 
+
+2-3 search tree grows from the bottom up, opposite to BST.
+
+### Insertion method
+To keep tree perfectly balance, when the 2-3 node has a *single key* simple insert the new key into the node. When the 2-3 node already has *2 keys*, first insert the key into the node, then node then split the 3 keys into individual nodes, where the middle key is root.
+
+For 3-links node (3 node) whose *parents is also a 3 node*, in simple term the process follows above but root node instead will perform the join then split again until there are no 4-links node. If the insertion whole way through are all 3-nodes, then the root node will be a 4-node. The root node will be splited, to create 3 individual 2-node.
+
+## Red-Black BSTs
+A simple implementation to encode 3-nodes using extra colour information on the link between node. Red link connection form a 3-node, while black link bind together the tree. Summary red link should lean left, where no node can have two red links, and tree has to be perfect black balance (all root to null link has to have the same number of black links).
+
+Colour parameter can simply be a boolean, added to `node`. While getter function should function, we need to be able to rotate node from leaning left to right and vice versa. Rotate function flip the leaning side of the red-link.
