@@ -48,7 +48,7 @@ class BST {
     void PostOrderTraverse(Node *node);
     void InOrderTraverse(Node *node);
     void LevelOrderTraverse(Node *node);
-    Node *SimepleSearch(Node *node, int key);
+    Node *SimpleSearch(Node *node, int key);
     Node *FindMinValueNode(Node *node);
     Node *FindMaxValueNode(Node *node);
 };

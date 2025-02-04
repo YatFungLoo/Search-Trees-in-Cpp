@@ -168,14 +168,14 @@ void BST::LevelOrderTraverse(Node *node) {
     while (!node_queue.empty()) {
 	int queue_length = node_queue.size();
         for (int i = 0; i < queue_length; i++) {
-	    auto dequeu_node = (node_queue.front());
+	    auto dequeue_node = (node_queue.front());
 	    node_queue.pop();
-	    visited.push(dequeu_node);
-	    if (dequeu_node->Left != nullptr) {
-		node_queue.push(dequeu_node->Left);
+	    visited.push(dequeue_node);
+	    if (dequeue_node->Left != nullptr) {
+		node_queue.push(dequeue_node->Left);
 	    }
-	    if (dequeu_node->Right != nullptr) {
-		node_queue.push(dequeu_node->Right);
+	    if (dequeue_node->Right != nullptr) {
+		node_queue.push(dequeue_node->Right);
 	    }
         }
     }
@@ -189,7 +189,7 @@ void BST::LevelOrderTraverse(Node *node) {
 }
 
 bool BST::Search(int key) {
-    Node *node = SimepleSearch(root_node, key);
+    Node *node = SimpleSearch(root_node, key);
 
     // Key not found (i.e. node is pointing to null)
     if (node == nullptr) {
@@ -206,7 +206,7 @@ bool BST::Search(int key) {
     return false;
 }
 
-Node *BST::SimepleSearch(Node *node, int key) {
+Node *BST::SimpleSearch(Node *node, int key) {
     // if node is null
     if (node == nullptr) {
         return nullptr;
@@ -219,12 +219,12 @@ Node *BST::SimepleSearch(Node *node, int key) {
 
     // if key is smaller go left subtree.
     if (node != nullptr && key < node->Key) {
-        node = SimepleSearch(node->Left, key);
+        node = SimpleSearch(node->Left, key);
     }
 
     // if key is larger go right subtree.
     if (node != nullptr && key > node->Key) {
-        node = SimepleSearch(node->Right, key);
+        node = SimpleSearch(node->Right, key);
     }
 
     return node;
