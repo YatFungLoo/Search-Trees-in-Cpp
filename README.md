@@ -33,15 +33,25 @@ Software requirement:
 
 
 Use the following Bash script to compile the project:
-```
-mkdir build && cd build
-cmake .. --preset=clang_debug
-ninja clean && ninja
+
+```bash
+cmake -S . --preset=debug -B build
 ```
 
+or
+
+```bash
+cmake -S . --preset=release -B build
+```
+
+then run
+
+```bash
+cmake --build build
+```
 When build finishes, run the executable in the `build/` directory:
 ```
-./BST
+./build/BST
 ```
 
 # Structure

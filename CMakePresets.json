@@ -2,7 +2,7 @@
     "version": 1,
     "configurePresets": [
 	{
-	    "name": "clang_debug",
+	    "name": "debug",
 	    "displayName": "Clang Debug",
 	    "description": "Debug build options for Clang",
 	    "generator": "Ninja",
@@ -12,7 +12,7 @@
 	    }
 	},
 	{
-	    "name": "clang_release",
+	    "name": "release",
 	    "displayName": "Clang Release",
 	    "description": "Release build options for Clang",
 	    "generator": "Ninja",
