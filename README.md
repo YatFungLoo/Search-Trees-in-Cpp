@@ -1,5 +1,7 @@
 # Simple Search Trees in C++
 
+[![CMake on multiple platforms](https://github.com/YatFungLoo/Search-Trees-in-Cpp/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/YatFungLoo/Search-Trees-in-Cpp/actions/workflows/cmake-multi-platform.yml)
+
 Simple implementation of a search trees (BST, red-black) written in C++.
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
