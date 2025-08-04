@@ -1,15 +1,15 @@
 #include "BST.hpp"
+#include <queue>
 
-// Class BST
 void BST::Insert(int key) {
-    std::cout << "Inserting: " << key << std::endl;
+    std::cout << "Inserting: " << key << '\n';
     root_node = InsertCompare(root_node, key);
 }
 
-Node *BST::InsertCompare(Node *node, int key) {
+std::unique_ptr<Node> BST::InsertCompare(std::unique_ptr<Node> &node, int key) {
     // Reaches bottom of tree/subtree.
     if (node == nullptr) {
-        Node *newNode = new Node(key);
+        std::unique_ptr<Node> newNode = std::make_unique<Node>(key);
         return newNode;
     }
 
@@ -22,22 +22,22 @@ Node *BST::InsertCompare(Node *node, int key) {
     }
 
     if (key == node->Key) {
-        std::cout << "Insert: same value error." << std::endl;
+        std::cout << "Insert: same value error." << '\n';
         // Exit recursion.
     }
 
-    return node;
+    return std::move(node);
 }
 
 void BST::Remove(int key) {
-    std::cout << "Removing: " << key << std::endl;
+    std::cout << "Removing: " << key << '\n';
     root_node = RemoveNode(root_node, key);
 }
 
-Node *BST::RemoveNode(Node *node, int key) {
+std::unique_ptr<Node> BST::RemoveNode(std::unique_ptr<Node> &node, int key) {
     // Reaches bottom of tree/subtree.
     if (node == nullptr) {
-        return node;
+        return std::move(node);
     }
 
     // Traverse to left child node when key is smaller.
@@ -54,38 +54,35 @@ Node *BST::RemoveNode(Node *node, int key) {
     if (key == node->Key) {
         // Case 1: If it's a leaf node (i.e no child).
         if (node->Left == nullptr && node->Right == nullptr) {
-            delete node;
+            node = nullptr;
             return nullptr;
         }
 
         // Case 2: If there is only one child, replace itself with child node and delete.
         // Covering cases for both sides.
         if (node->Left == nullptr && node->Right != nullptr) {
-            Node *temp_node = node->Right;
-            delete node;
-            return temp_node;
-        } else if (node->Right == nullptr && node->Left != nullptr) {
-            Node *temp_node = node->Left;
-            delete node;
-            return temp_node;
+            return std::move(node->Right);
+        }
+        if (node->Right == nullptr && node->Left != nullptr) {
+            return std::move(node->Left);
         }
 
         // Case 3: If node has two children, either:
         // 1) find node's right hand side inorder successor (smallest value), replace itself
         // with its successor, and delete the found inorder successor.
-        Node *temp_min = FindMinValueNode(root_node->Right);
+        std::unique_ptr<Node> temp_min = FindMinValueNode(root_node->Right);
         node->Key = temp_min->Key;
         node->Right = RemoveNode(node->Right, temp_min->Key);
 
         ////////////////////////////////////////////////////////////////////////////////////
         // 2) find node's left hand side biggest value, replace itself with its successor,
         // and delete the found inorder successor.
-        // Node *temp_max = FindMaxValueNode(root_node->Left);
+        // std::unique_ptr<Node> temp_max = FindMaxValueNode(root_node->Left);
         // node->Key = temp_max->Key;
         // node->Left = RemoveNode(node->Left, temp_max->Key);
         ////////////////////////////////////////////////////////////////////////////////////
     }
-    return node;
+    return std::move(node);
 }
 
 void BST::Traversing(int mode) {
@@ -94,27 +91,27 @@ void BST::Traversing(int mode) {
     case pre_order:
         std::cout << "Pre-order traverse: ";
         PreOrderTraverse(root_node);
-        std::cout << std::endl;
+        std::cout << '\n';
         break;
     case post_order:
         std::cout << "Post-order traverse: ";
         PostOrderTraverse(root_node);
-        std::cout << std::endl;
+        std::cout << '\n';
         break;
     case in_order:
         std::cout << "In-order traverse: ";
         InOrderTraverse(root_node);
-        std::cout << std::endl;
+        std::cout << '\n';
         break;
     case level_order:
         std::cout << "Level-order traverse: ";
         LevelOrderTraverse(root_node);
-        std::cout << std::endl;
+        std::cout << '\n';
         break;
     }
 }
 
-void BST::PreOrderTraverse(Node *node) {
+void BST::PreOrderTraverse(std::unique_ptr<Node> &node) {
     // Reaches bottom of tree.
     if (node == nullptr) {
         return;
@@ -128,7 +125,7 @@ void BST::PreOrderTraverse(Node *node) {
     PreOrderTraverse(node->Right);
 }
 
-void BST::PostOrderTraverse(Node *node) {
+void BST::PostOrderTraverse(std::unique_ptr<Node> &node) {
     // Reaches bottom of tree.
     if (node == nullptr) {
         return;
@@ -142,7 +139,7 @@ void BST::PostOrderTraverse(Node *node) {
     std::cout << node->Key << " ";
 }
 
-void BST::InOrderTraverse(Node *node) {
+void BST::InOrderTraverse(std::unique_ptr<Node> &node) {
     // Reaches bottom of tree.
     if (node == nullptr) {
         return;
@@ -161,23 +158,23 @@ void BST::InOrderTraverse(Node *node) {
    2. Add left node then right node to queue.
    3. Repeat until queue is empty.
  */
-void BST::LevelOrderTraverse(Node *node) {
+void BST::LevelOrderTraverse(std::unique_ptr<Node> &node) {
     std::queue<Node *> node_queue;
     std::queue<Node *> visited;
-    node_queue.push(node);
+    node_queue.push(node.get());
 
     while (!node_queue.empty()) {
         int queue_length = node_queue.size();
         for (int i = 0; i < queue_length; i++) {
-	    auto dequeue_node = (node_queue.front());
-	    node_queue.pop();
-	    visited.push(dequeue_node);
-	    if (dequeue_node->Left != nullptr) {
-		node_queue.push(dequeue_node->Left);
-	    }
-	    if (dequeue_node->Right != nullptr) {
-		node_queue.push(dequeue_node->Right);
-	    }
+            auto *dequeue_node = (node_queue.front());
+            node_queue.pop();
+            visited.push(dequeue_node);
+            if (dequeue_node->Left != nullptr) {
+                node_queue.push(dequeue_node->Left.get());
+            }
+            if (dequeue_node->Right != nullptr) {
+                node_queue.push(dequeue_node->Right.get());
+            }
         }
     }
 
@@ -190,24 +187,24 @@ void BST::LevelOrderTraverse(Node *node) {
 }
 
 bool BST::Search(int key) {
-    Node *node = SimpleSearch(root_node, key);
+    std::unique_ptr<Node> node = SimpleSearch(root_node, key);
 
     // Key not found (i.e. node is pointing to null)
     if (node == nullptr) {
-        std::cout << "Key: " << key << "  was not found in the tree." << std::endl;
+        std::cout << "Key: " << key << "  was not found in the tree." << '\n';
         return false;
     }
 
     // Key found, print address and key.
     if (node != nullptr && key == node->Key) {
-        std::cout << "Found key at: " << &node << " and its value is " << node->Key << std::endl;
+        std::cout << "Found key at: " << &node << " and its value is " << node->Key << '\n';
         return true;
     }
 
     return false;
 }
 
-Node *BST::SimpleSearch(Node *node, int key) {
+std::unique_ptr<Node> BST::SimpleSearch(std::unique_ptr<Node> &node, int key) {
     // if node is null
     if (node == nullptr) {
         return nullptr;
@@ -215,7 +212,7 @@ Node *BST::SimpleSearch(Node *node, int key) {
 
     // if the key is found at present node.
     if (key == node->Key) {
-        return node;
+        return std::move(node);
     }
 
     // if key is smaller go left subtree.
@@ -228,47 +225,33 @@ Node *BST::SimpleSearch(Node *node, int key) {
         node = SimpleSearch(node->Right, key);
     }
 
-    return node;
+    return std::move(node);
 }
 
 // Return minimun value of the tree.
 int BST::FindMinValue() {
-    Node *node = nullptr;
+    std::unique_ptr<Node> node = nullptr;
     node = FindMinValueNode(root_node);
     return node->Key;
 }
 
-Node *BST::FindMinValueNode(Node *node) {
+std::unique_ptr<Node> BST::FindMinValueNode(std::unique_ptr<Node> &node) {
     if (node->Left != nullptr) {
         node = FindMinValueNode(node->Left);
     }
-    return node;
+    return std::move(node);
 }
 
 // Return maximum calue of the tree.
 int BST::FindMaxValue() {
-    Node *node = nullptr;
+    std::unique_ptr<Node> node = nullptr;
     node = FindMaxValueNode(root_node);
     return node->Key;
 }
 
-Node *BST::FindMaxValueNode(Node *node) {
+std::unique_ptr<Node> BST::FindMaxValueNode(std::unique_ptr<Node> &node) {
     if (node->Right != nullptr) {
         node = FindMaxValueNode(node->Right);
     }
-    return node;
+    return std::move(node);
 }
-// End of Class BST
-
-// Class RBT
-bool RBT::TurnRed(Coloured_Node *node) {
-    if (node == nullptr) {
-        return false;
-    }
-    return node->colour == RED;
-}
-
-Coloured_Node *RBT::RotateLeft(Coloured_Node *node) { return node; }
-Coloured_Node *RBT::RotateRight(Coloured_Node *node) { return node; }
-Coloured_Node *RBT::FlipColours(Coloured_Node *node) { return node; }
-// End of Class RBT
