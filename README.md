@@ -1,6 +1,6 @@
-# Simple BST in C++
+# Simple Search Trees in C++
 
-Simple implementation of a BST tree written in C++.
+Simple implementation of a search trees (BST, red-black) written in C++.
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
