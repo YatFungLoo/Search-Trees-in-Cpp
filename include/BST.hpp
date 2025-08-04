@@ -34,14 +34,14 @@ class BST {
 
   private:
     std::unique_ptr<Node> InsertCompare(std::unique_ptr<Node> &node, int key);
-    std::unique_ptr<Node> RemoveNode(std::unique_ptr<Node> &node, int key);
+    std::unique_ptr<Node> RemoveNode(std::unique_ptr<Node> node, int key);
     void PreOrderTraverse(std::unique_ptr<Node> &node);
     void PostOrderTraverse(std::unique_ptr<Node> &node);
     void InOrderTraverse(std::unique_ptr<Node> &node);
     static void LevelOrderTraverse(std::unique_ptr<Node> &node);
     std::unique_ptr<Node> SimpleSearch(std::unique_ptr<Node> &node, int key);
-    std::unique_ptr<Node> FindMinValueNode(std::unique_ptr<Node> &node);
-    std::unique_ptr<Node> FindMaxValueNode(std::unique_ptr<Node> &node);
+    Node *FindMinValueNode(Node *node);
+    Node *FindMaxValueNode(Node *node);
 };
 
 #endif

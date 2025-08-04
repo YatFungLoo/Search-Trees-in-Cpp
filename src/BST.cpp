@@ -31,23 +31,23 @@ std::unique_ptr<Node> BST::InsertCompare(std::unique_ptr<Node> &node, int key) {
 
 void BST::Remove(int key) {
     std::cout << "Removing: " << key << '\n';
-    root_node = RemoveNode(root_node, key);
+    root_node = RemoveNode(std::move(root_node), key);
 }
 
-std::unique_ptr<Node> BST::RemoveNode(std::unique_ptr<Node> &node, int key) {
+std::unique_ptr<Node> BST::RemoveNode(std::unique_ptr<Node> node, int key) {
     // Reaches bottom of tree/subtree.
     if (node == nullptr) {
-        return std::move(node);
+        return nullptr;
     }
 
     // Traverse to left child node when key is smaller.
     if (key < node->Key) {
-        node->Left = RemoveNode(node->Left, key);
+        node->Left = RemoveNode(std::move(node->Left), key);
     }
 
     // Traverse to right child node when key is greater.
     if (key > node->Key) {
-        node->Right = RemoveNode(node->Right, key);
+        node->Right = RemoveNode(std::move(node->Right), key);
     }
 
     // When key is found.
@@ -63,16 +63,17 @@ std::unique_ptr<Node> BST::RemoveNode(std::unique_ptr<Node> &node, int key) {
         if (node->Left == nullptr && node->Right != nullptr) {
             return std::move(node->Right);
         }
-        if (node->Right == nullptr && node->Left != nullptr) {
+        if (node->Left != nullptr && node->Right == nullptr) {
             return std::move(node->Left);
         }
 
         // Case 3: If node has two children, either:
         // 1) find node's right hand side inorder successor (smallest value), replace itself
         // with its successor, and delete the found inorder successor.
-        std::unique_ptr<Node> temp_min = FindMinValueNode(root_node->Right);
+        Node *temp_min= FindMinValueNode(node->Right.get());
         node->Key = temp_min->Key;
-        node->Right = RemoveNode(node->Right, temp_min->Key);
+        // Remove the successor
+        node->Right = RemoveNode(std::move(node->Right), temp_min->Key);
 
         ////////////////////////////////////////////////////////////////////////////////////
         // 2) find node's left hand side biggest value, replace itself with its successor,
@@ -82,7 +83,7 @@ std::unique_ptr<Node> BST::RemoveNode(std::unique_ptr<Node> &node, int key) {
         // node->Left = RemoveNode(node->Left, temp_max->Key);
         ////////////////////////////////////////////////////////////////////////////////////
     }
-    return std::move(node);
+    return node;
 }
 
 void BST::Traversing(int mode) {
@@ -229,29 +230,21 @@ std::unique_ptr<Node> BST::SimpleSearch(std::unique_ptr<Node> &node, int key) {
 }
 
 // Return minimun value of the tree.
-int BST::FindMinValue() {
-    std::unique_ptr<Node> node = nullptr;
-    node = FindMinValueNode(root_node);
-    return node->Key;
-}
+int BST::FindMinValue() { return FindMinValueNode(root_node.get())->Key; }
 
-std::unique_ptr<Node> BST::FindMinValueNode(std::unique_ptr<Node> &node) {
+Node *BST::FindMinValueNode(Node *node) {
     if (node->Left != nullptr) {
-        node = FindMinValueNode(node->Left);
+        return FindMinValueNode(node->Left.get());
     }
-    return std::move(node);
+    return node;
 }
 
 // Return maximum calue of the tree.
-int BST::FindMaxValue() {
-    std::unique_ptr<Node> node = nullptr;
-    node = FindMaxValueNode(root_node);
-    return node->Key;
-}
+int BST::FindMaxValue() { return FindMaxValueNode(root_node.get())->Key; }
 
-std::unique_ptr<Node> BST::FindMaxValueNode(std::unique_ptr<Node> &node) {
+Node *BST::FindMaxValueNode(Node *node) {
     if (node->Right != nullptr) {
-        node = FindMaxValueNode(node->Right);
+        return FindMaxValueNode(node->Right.get());
     }
-    return std::move(node);
+    return node;
 }
