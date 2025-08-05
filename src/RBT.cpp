@@ -1,10 +1,17 @@
 #include "RBT.hpp"
+#include <stdexcept>
 
-bool RBT::TurnRed(Coloured_Node *node) {
+bool RBT::isRed(Coloured_Node *node) {
     if (node == nullptr) {
+        std::runtime_error("Node does not exist.")
+    }
+    if (node->colour == BLACK) {
         return false;
     }
-    return node->colour == RED;
+    if (node->colour == RED) {
+        return true;
+    }
+    return false;
 }
 
 Coloured_Node *RBT::RotateLeft(Coloured_Node *node) { return node; }
