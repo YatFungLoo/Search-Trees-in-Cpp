@@ -54,7 +54,6 @@ std::unique_ptr<Node> BST::RemoveNode(std::unique_ptr<Node> node, int key) {
     if (key == node->Key) {
         // Case 1: If it's a leaf node (i.e no child).
         if (node->Left == nullptr && node->Right == nullptr) {
-            node = nullptr;
             return nullptr;
         }
 
