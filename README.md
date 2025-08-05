@@ -80,7 +80,7 @@ It is an important concept in programming language design as different traverse 
 ## Note On Following Implementation
 The following traversal are not considered as depth-first-search algorithm but rather just traversal, they are done using recursion, meaning the call stack is used instead.
 
-> Proper depth-first-search algorithm should implemented with stack. While breadth-first-search are implemented using queue.
+> Depth-first-search algorithm should implemented with stack. While breadth-first-search should be implemented using queue.
 
 ## In-order Traversal
 Instructions:
@@ -111,7 +111,7 @@ More special than the other traversal, level-order traverse nodes by level, from
 This can be achieved either recursively using stack, or iteratively using queue, white both uses O(n) space and time. This code uses iterative method with queue structure.
 
 ### Iterative Method Using Queue
-This method uses two additional queue, 1) node queue and 2) visitied node.
+This method uses two additional queue, 1) node queue and 2) visited node.
 
 Instructions:
 1. Push root node into queue.
@@ -120,8 +120,8 @@ Instructions:
    2. Iterate node queue to queue size:
 	  1. Pop nodes from node queue and push to visited queue.
 	  2. Check node's children, from left to right.
-	  3. If left node exist, push left node to node_queueu.
-	  4. If right node exist, push right node to node_queueu.
+	  3. If left node exist, push left node to node_queue.
+	  4. If right node exist, push right node to node_queue.
 
 # Balance Search Tree
 A type of BST called Balance search tree, usually referred to it's most common implementation Red-Black tree, In comparison to binary search tree are searches are guaranteed to be logarithmic.
@@ -134,7 +134,7 @@ This tree allows extra link to be connected to each node, where each node can no
 ### Insertion method
 To keep tree perfectly balance, when the 2-3 node has a *single key* simple insert the new key into the node. When the 2-3 node already has *2 keys*, first insert the key into the node, then node then split the 3 keys into individual nodes, where the middle key is root.
 
-For 3-links node (3 node) whose *parents is also a 3 node*, in simple term the process follows above but root node instead will perform the join then split again until there are no 4-links node. If the insertion whole way through are all 3-nodes, then the root node will be a 4-node. The root node will be splited, to create 3 individual 2-node.
+For 3-links node (3 node) whose *parents is also a 3 node*, in simple term the process follows above but root node instead will perform the join then split again until there are no 4-links node. If the insertion whole way through are all 3-nodes, then the root node will be a 4-node. The root node will be split-ed, to create 3 individual 2-node.
 
 ## Red-Black BSTs
 A simple implementation to encode 3-nodes using extra colour information on the link between node. Red link connection form a 3-node, while black link bind together the tree. Summary red link should lean left, where no node can have two red links, and tree has to be perfect black balance (all root to null link has to have the same number of black links).
